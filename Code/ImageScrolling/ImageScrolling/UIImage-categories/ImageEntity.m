@@ -28,6 +28,16 @@
     return self;
 }
 
+- (void)setImageName:(NSString *)imageName
+{
+    _imageName= imageName;
+}
+
+- (void)setUpdatedImage:(UIImage *)updatedImage
+{
+    _updatedImage = updatedImage;
+}
+
 #pragma mark - FICEntity Protocol Implementation
 #pragma mark - FICImageCacheEntity
 

@@ -34,5 +34,5 @@ typedef enum
 - (void)finishConfiguringImageCache;
 
 - (void)cacheImage:(NSString *)imageName imageURL:(NSURL *)image style:(ICImageType)type;
-
+- (void)cacheImage:(NSString *)imageName image:(UIImage *)image imageURL:(NSURL *)imageURL style:(ICImageType)type;
 @end

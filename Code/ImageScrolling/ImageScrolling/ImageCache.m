@@ -33,6 +33,7 @@ NSString *imageFamilyNames[] = {
 
 @property(nonatomic, strong)FICImageCache *imageCache;
 @property(nonatomic ,strong)NSMutableArray *imageFormats;
+@property(nonatomic ,strong)NSMutableArray *imageEntities;
 
 @end
 
@@ -45,6 +46,7 @@ NSString *imageFamilyNames[] = {
     {
         _isConfiguring = YES;
         self.imageFormats = [NSMutableArray array];
+        self.imageEntities = [NSMutableArray array];
     }
     
     return self;
@@ -140,7 +142,47 @@ NSString *imageFamilyNames[] = {
 #pragma mark - Cache Images
 - (void)cacheImage:(NSString *)imageName imageURL:(NSURL *)imageURL style:(ICImageType)type
 {
-    //ImageEntity *imageEntity = [[ImageEntity alloc]initWithImageURL:imageURL andFormatName:imageFormatNames[type]];
+    // create a new image entity
+    ImageEntity *imageEntity = [[ImageEntity alloc]initWithImageURL:imageURL andFormatName:imageFormatNames[type]];
+    [imageEntity setImageName:imageName];
+    [imageEntity setUpdatedImage:nil];
+    
+    // add it to the new image entity array
+    [self.imageEntities addObject:imageEntity];
+    
+    // cache the image
+    [self.imageCache setImage:[UIImage imageWithContentsOfFile:[imageURL absoluteString]] forEntity:imageEntity withFormatName:imageFormatNames[type] completionBlock:^(id<FICEntity> entity, NSString *formatName, UIImage *image) {
+        
+    }];
+}
+
+- (void)cacheImage:(NSString *)imageName image:(UIImage *)image imageURL:(NSURL *)imageURL style:(ICImageType)type
+{
+    // create a new image entity
+    ImageEntity *imageEntity = [[ImageEntity alloc]initWithImageURL:imageURL andFormatName:imageFormatNames[type]];
+    [imageEntity setImageName:imageName];
+    [imageEntity setUpdatedImage:image];
+    
+    // add it to the new image entity array
+    [self.imageEntities addObject:imageEntity];
+    
+    // cache the image
+    [self.imageCache setImage:[UIImage imageWithContentsOfFile:[imageURL absoluteString]] forEntity:imageEntity withFormatName:imageFormatNames[type] completionBlock:^(id<FICEntity> entity, NSString *formatName, UIImage *image) {
+        
+    }];
+}
+
+#pragma mark - FICImageCacheDelegate
+- (void)imageCache:(FICImageCache *)imageCache wantsSourceImageForEntity:(id <FICEntity>)entity withFormatName:(NSString *)formatName completionBlock:(FICImageRequestCompletionBlock)completionBlock
+{
+        if(![(ImageEntity *)entity updatedImage])
+        {
+            completionBlock([UIImage imageWithContentsOfFile:[[(ImageEntity*)entity imageUrl] absoluteString]]);
+        }
+        else
+        {
+            completionBlock([(ImageEntity *)entity updatedImage]);
+        }
 }
 
 @end
