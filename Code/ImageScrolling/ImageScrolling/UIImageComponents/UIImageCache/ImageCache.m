@@ -12,21 +12,21 @@
 #import "ImageEntity.h"
 
 NSString *imageFormatNames[] = {
-    [kICImageThumbnailSmall] = @"kICImageThumbnailSmall",
-    [kICImageThumbnailMedium] = @"kICImageThumbnailMedium",
-    [kICImageThumbnailLarge] = @"kICImageThumbnailLarge",
-    [kICImageNormal] = @"kICImageSmall",
-    [kICImageMedium] = @"kICImageMedium",
-    [kICImageLarge] = @"kICImageLarge",
+    [kICImageTypeThumbnailSmall] = @"kICImageThumbnailSmall",
+    [kICImageTypeThumbnailMedium] = @"kICImageThumbnailMedium",
+    [kICImageTypeThumbnailLarge] = @"kICImageThumbnailLarge",
+    [kICImageTypeNormal] = @"kICImageSmall",
+    [kICImageTypeMedium] = @"kICImageMedium",
+    [kICImageTypeLarge] = @"kICImageLarge",
 };
 
 NSString *imageFamilyNames[] = {
-    [kICImageThumbnailSmall] = @"ICThumbnailImages",
-    [kICImageThumbnailMedium] = @"ICThumbnailImages",
-    [kICImageThumbnailLarge] = @"ICThumbnailImages",
-    [kICImageNormal] = @"ICRegularImages",
-    [kICImageMedium] = @"ICRegularImages",
-    [kICImageLarge] = @"ICRegularImages",
+    [kICImageTypeThumbnailSmall] = @"ICThumbnailImages",
+    [kICImageTypeThumbnailMedium] = @"ICThumbnailImages",
+    [kICImageTypeThumbnailLarge] = @"ICThumbnailImages",
+    [kICImageTypeNormal] = @"ICRegularImages",
+    [kICImageTypeMedium] = @"ICRegularImages",
+    [kICImageTypeLarge] = @"ICRegularImages",
 };
 
 @interface ImageCache()<FICImageCacheDelegate>
@@ -125,6 +125,20 @@ NSString *imageFamilyNames[] = {
     }
 }
 
+- (CGSize)formatSize:(NSString *)formatName
+{
+    CGSize size = CGSizeZero;
+    for (FICImageFormat *format in self.imageFormats)
+    {
+        if([formatName isEqualToString:format.name])
+        {
+            size = format.imageSize;
+        }
+    }
+    
+    return size;
+}
+
 - (NSString *)formatNameForStyle:(ICImageType)type
 {
     return imageFormatNames[type];
@@ -140,12 +154,11 @@ NSString *imageFamilyNames[] = {
 }
 
 #pragma mark - Cache Images
-- (void)cacheImage:(NSString *)imageName imageURL:(NSURL *)imageURL style:(ICImageType)type
+- (void)cacheImage:(NSString *)imageName imageURL:(NSURL *)imageURL type:(ICImageType)type
 {
     // create a new image entity
     ImageEntity *imageEntity = [[ImageEntity alloc]initWithImageURL:imageURL andFormatName:imageFormatNames[type]];
     [imageEntity setImageName:imageName];
-    [imageEntity setUpdatedImage:nil];
     
     // add it to the new image entity array
     [self.imageEntities addObject:imageEntity];
@@ -156,12 +169,18 @@ NSString *imageFamilyNames[] = {
     }];
 }
 
-- (void)cacheImage:(NSString *)imageName image:(UIImage *)image imageURL:(NSURL *)imageURL style:(ICImageType)type
+- (void)cacheImage:(NSString *)imageName
+          imageURL:(NSURL *)imageURL
+              type:(ICImageType)type
+             scale:(CGFloat)scale
+      cornerRadius:(CGFloat)cornerRadius
+       orientation:(BOOL)orientation
+interpolationQuality:(CGInterpolationQuality)quality
 {
     // create a new image entity
     ImageEntity *imageEntity = [[ImageEntity alloc]initWithImageURL:imageURL andFormatName:imageFormatNames[type]];
     [imageEntity setImageName:imageName];
-    [imageEntity setUpdatedImage:image];
+    [imageEntity setImageMetaData:[self formatSize:imageFormatNames[type]] scale:scale cornerRadius:cornerRadius orientation:orientation quality:quality];
     
     // add it to the new image entity array
     [self.imageEntities addObject:imageEntity];
@@ -170,19 +189,29 @@ NSString *imageFamilyNames[] = {
     [self.imageCache setImage:[UIImage imageWithContentsOfFile:[imageURL absoluteString]] forEntity:imageEntity withFormatName:imageFormatNames[type] completionBlock:^(id<FICEntity> entity, NSString *formatName, UIImage *image) {
         
     }];
+}
+
+
+- (void)retriveCachedImage:(NSString *)imageName type:(ICImageType)type completion:(completionBlock)completion
+{
+    for (ImageEntity *entity in self.imageEntities)
+    {
+        if([entity.imageName isEqualToString:imageName] && [entity.imageFormatName isEqualToString:imageFormatNames[type]])
+        {
+            // the image is cached
+            // this is a synchronous call
+            BOOL retrive = [self.imageCache retrieveImageForEntity:entity withFormatName:imageFormatNames[type] completionBlock:^(id<FICEntity> entity, NSString *formatName, UIImage *image) {
+                completion(image, YES);
+            }];
+            break;
+        }
+    }
 }
 
 #pragma mark - FICImageCacheDelegate
 - (void)imageCache:(FICImageCache *)imageCache wantsSourceImageForEntity:(id <FICEntity>)entity withFormatName:(NSString *)formatName completionBlock:(FICImageRequestCompletionBlock)completionBlock
 {
-        if(![(ImageEntity *)entity updatedImage])
-        {
-            completionBlock([UIImage imageWithContentsOfFile:[[(ImageEntity*)entity imageUrl] absoluteString]]);
-        }
-        else
-        {
-            completionBlock([(ImageEntity *)entity updatedImage]);
-        }
+    completionBlock([(ImageEntity *)entity entityImage]);
 }
 
 @end

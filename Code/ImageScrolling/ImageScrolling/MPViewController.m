@@ -11,11 +11,13 @@
 #import "CustomCell.h"
 #import "UIImage+Resizing.h"
 #import "UIImage+Thumbnail.h"
+#import "ImageCache.h"
 
 @interface MPViewController ()<UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong)NSArray *imageArray;
+@property (nonatomic, strong)ImageCache *imageCache;
 
 @end
 
@@ -26,15 +28,25 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     self.imageArray = @[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"11",@"12",@"13"];
-    
     self.tableView.backgroundColor = [UIColor grayColor];
+    
+    // init the image cache
+    [self initImageCache];
     
     for (NSString *string in self.imageArray)
     {
-        UIImage *img = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:string ofType:@"jpg"]];
-        img = [img thumbnailImageWithSize:CGSizeMake(40, 40) scale:[UIScreen mainScreen].scale cornerRadius:20];
-        /*[[YMLImageCache sharedImageCache]storeImage:img forKey:string toDisk:NO];*/
+        // cache the image
+        [self.imageCache cacheImage:string imageURL:[[NSBundle mainBundle] URLForResource:string withExtension:@"jpg"] type:kICImageTypeThumbnailLarge scale:[UIScreen mainScreen].scale cornerRadius:4.0f orientation:NO interpolationQuality:kCGInterpolationHigh];
     }
+    
+    [[self tableView]reloadData];
+}
+
+- (void)initImageCache
+{
+    self.imageCache = [[ImageCache alloc]init];
+    [self.imageCache configureImageType:kICImageTypeThumbnailLarge imageStyle:kICmageFormatStyle32BitBGRA withSize:CGSizeMake(40, 40)];
+    [self.imageCache finishConfiguringImageCache];
 }
 
 - (void)didReceiveMemoryWarning
@@ -58,13 +70,19 @@
         cell = [[[NSBundle mainBundle]loadNibNamed:@"CustomCell" owner:[NSObject class] options:nil] objectAtIndex:0];
     }
     
-    /*NSInteger random1 = arc4random()%13;
-    NSInteger random2 = arc4random()%13;
-    NSInteger random3 = arc4random()%13;
+    NSString *random1 = [NSString stringWithFormat:@"%d",arc4random()%13];
+    NSString *random2 = [NSString stringWithFormat:@"%d",arc4random()%13];
+    NSString *random3 = [NSString stringWithFormat:@"%d",arc4random()%13];
     
-    cell.profilePic.image = [[YMLImageCache sharedImageCache]imageFromKey:self.imageArray[random1] fromDisk:NO];
-    cell.profilePic1.image = [[YMLImageCache sharedImageCache]imageFromKey:self.imageArray[random2] fromDisk:NO];
-    cell.profilePIc2.image = [[YMLImageCache sharedImageCache]imageFromKey:self.imageArray[random3] fromDisk:NO];*/
+    [self.imageCache retriveCachedImage:random1 type:kICImageTypeThumbnailLarge completion:^(UIImage *image, BOOL success) {
+        cell.profilePic.image = image;
+    }];
+    [self.imageCache retriveCachedImage:random2 type:kICImageTypeThumbnailLarge completion:^(UIImage *image, BOOL success) {
+        cell.profilePic1.image = image;
+    }];
+    [self.imageCache retriveCachedImage:random3 type:kICImageTypeThumbnailLarge completion:^(UIImage *image, BOOL success) {
+        cell.profilePIc2.image = image;
+    }];
     
     return cell;
 }

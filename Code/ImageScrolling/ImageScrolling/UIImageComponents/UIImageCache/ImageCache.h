@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void(^completionBlock)(UIImage *image, BOOL success);
+
 typedef enum {
     kICmageFormatStyle32BitBGRA,
     kICImageFormatStyle32BitBGR,
@@ -17,12 +19,12 @@ typedef enum {
 
 typedef enum
 {
-    kICImageThumbnailSmall,
-    kICImageThumbnailMedium,
-    kICImageThumbnailLarge,
-    kICImageNormal,
-    kICImageMedium,
-    kICImageLarge,
+    kICImageTypeThumbnailSmall,
+    kICImageTypeThumbnailMedium,
+    kICImageTypeThumbnailLarge,
+    kICImageTypeNormal,
+    kICImageTypeMedium,
+    kICImageTypeLarge,
 }ICImageType;
 
 @interface ImageCache : NSObject
@@ -33,6 +35,15 @@ typedef enum
 - (NSString *)formatNameForStyle:(ICImageType)type;
 - (void)finishConfiguringImageCache;
 
-- (void)cacheImage:(NSString *)imageName imageURL:(NSURL *)image style:(ICImageType)type;
-- (void)cacheImage:(NSString *)imageName image:(UIImage *)image imageURL:(NSURL *)imageURL style:(ICImageType)type;
+- (void)cacheImage:(NSString *)imageName imageURL:(NSURL *)image type:(ICImageType)type;
+- (void)cacheImage:(NSString *)imageName
+          imageURL:(NSURL *)imageURL
+          type:(ICImageType)type
+          scale:(CGFloat)scale
+          cornerRadius:(CGFloat)cornerRadius
+          orientation:(BOOL)orientation
+          interpolationQuality:(CGInterpolationQuality)quality;
+
+- (void)retriveCachedImage:(NSString *)imageName type:(ICImageType)type completion:(completionBlock)completion;
+
 @end

@@ -14,10 +14,17 @@
 @property(nonatomic, strong, readonly)NSURL *imageUrl;
 @property(nonatomic, strong, readonly)NSString *imageName;
 @property(nonatomic, assign, readonly)NSString *imageFormatName;
-@property(nonatomic, assign, readonly)UIImage *updatedImage;
+
+@property(nonatomic, assign, readonly)CGSize size;
+@property(nonatomic, assign, readonly)CGFloat scale;
+@property(nonatomic, assign, readonly)CGFloat cornerRadius;
+@property(nonatomic, assign, readonly)BOOL orientation;
+@property(nonatomic, assign, readonly)CGInterpolationQuality imageInterpolationQuality;
 
 - (id)initWithImageURL:(NSURL *)imageURL andFormatName:(NSString *)formatName;
+- (UIImage *)entityImage;
 - (void)setImageName:(NSString *)imageName;
-- (void)setUpdatedImage:(UIImage *)updatedImage;
+- (void)setImageMetaData:(CGSize)size scale:(CGFloat)scale cornerRadius:(CGFloat)cornerRadius orientation:(BOOL)orientation quality:(CGInterpolationQuality)quality;
+
 
 @end
