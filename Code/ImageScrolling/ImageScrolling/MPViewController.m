@@ -11,7 +11,6 @@
 #import "CustomCell.h"
 #import "UIImage+Resizing.h"
 #import "UIImage+Thumbnail.h"
-#import "YMLImageCache.h"
 
 @interface MPViewController ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -34,7 +33,7 @@
     {
         UIImage *img = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:string ofType:@"jpg"]];
         img = [img thumbnailImageWithSize:CGSizeMake(40, 40) scale:[UIScreen mainScreen].scale cornerRadius:20];
-        [[YMLImageCache sharedImageCache]storeImage:img forKey:string toDisk:NO];
+        /*[[YMLImageCache sharedImageCache]storeImage:img forKey:string toDisk:NO];*/
     }
 }
 
@@ -59,13 +58,13 @@
         cell = [[[NSBundle mainBundle]loadNibNamed:@"CustomCell" owner:[NSObject class] options:nil] objectAtIndex:0];
     }
     
-    NSInteger random1 = arc4random()%13;
+    /*NSInteger random1 = arc4random()%13;
     NSInteger random2 = arc4random()%13;
     NSInteger random3 = arc4random()%13;
     
     cell.profilePic.image = [[YMLImageCache sharedImageCache]imageFromKey:self.imageArray[random1] fromDisk:NO];
     cell.profilePic1.image = [[YMLImageCache sharedImageCache]imageFromKey:self.imageArray[random2] fromDisk:NO];
-    cell.profilePIc2.image = [[YMLImageCache sharedImageCache]imageFromKey:self.imageArray[random3] fromDisk:NO];
+    cell.profilePIc2.image = [[YMLImageCache sharedImageCache]imageFromKey:self.imageArray[random3] fromDisk:NO];*/
     
     return cell;
 }
