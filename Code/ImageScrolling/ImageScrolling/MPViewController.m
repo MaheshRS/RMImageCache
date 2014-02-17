@@ -36,7 +36,7 @@
     for (NSString *string in self.imageArray)
     {
         // cache the image
-        [self.imageCache cacheImage:string imageURL:[[NSBundle mainBundle] URLForResource:string withExtension:@"jpg"] type:kICImageTypeThumbnailLarge scale:[UIScreen mainScreen].scale cornerRadius:4.0f orientation:NO interpolationQuality:kCGInterpolationHigh];
+        [self.imageCache cacheImage:string imageURL:[[NSBundle mainBundle] URLForResource:string withExtension:@"jpg"] type:kICImageTypeThumbnailLarge scale:[UIScreen mainScreen].scale cornerRadius:20.0f orientation:NO interpolationQuality:kCGInterpolationHigh];
     }
     
     [[self tableView]reloadData];
@@ -70,17 +70,20 @@
         cell = [[[NSBundle mainBundle]loadNibNamed:@"CustomCell" owner:[NSObject class] options:nil] objectAtIndex:0];
     }
     
-    NSString *random1 = [NSString stringWithFormat:@"%d",arc4random()%13];
-    NSString *random2 = [NSString stringWithFormat:@"%d",arc4random()%13];
-    NSString *random3 = [NSString stringWithFormat:@"%d",arc4random()%13];
+    NSString *random1 = [NSString stringWithFormat:@"%d",(indexPath.row +1)%13];
+    NSString *random2 = [NSString stringWithFormat:@"%d",(indexPath.row +2)%13];
+    NSString *random3 = [NSString stringWithFormat:@"%d",(indexPath.row +3)%13];
     
     [self.imageCache retriveCachedImage:random1 type:kICImageTypeThumbnailLarge completion:^(UIImage *image, BOOL success) {
+        NSAssert(image!=nil, @"Image Cannot be nil");
         cell.profilePic.image = image;
     }];
     [self.imageCache retriveCachedImage:random2 type:kICImageTypeThumbnailLarge completion:^(UIImage *image, BOOL success) {
+        NSAssert(image!=nil, @"Image Cannot be nil");
         cell.profilePic1.image = image;
     }];
     [self.imageCache retriveCachedImage:random3 type:kICImageTypeThumbnailLarge completion:^(UIImage *image, BOOL success) {
+        NSAssert(image!=nil, @"Image Cannot be nil");
         cell.profilePIc2.image = image;
     }];
     
