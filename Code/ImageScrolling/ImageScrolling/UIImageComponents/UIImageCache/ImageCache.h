@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 typedef void(^completionBlock)(UIImage *image, BOOL success);
+typedef void(^deleteCompletionBlock)(NSString *imageName, BOOL success);
 
 typedef enum {
     kICmageFormatStyle32BitBGRA,
@@ -45,5 +46,6 @@ typedef enum
           interpolationQuality:(CGInterpolationQuality)quality;
 
 - (void)retriveCachedImage:(NSString *)imageName type:(ICImageType)type completion:(completionBlock)completion;
+- (void)deleteCachedImage:(NSString *)imageName type:(ICImageType)type deleteCompletion:(deleteCompletionBlock)deleteCompletion;
 
 @end

@@ -191,6 +191,27 @@ interpolationQuality:(CGInterpolationQuality)quality
     }];
 }
 
+- (void)deleteCachedImage:(NSString *)imageName type:(ICImageType)type deleteCompletion:(deleteCompletionBlock)deleteCompletion
+{
+    BOOL imageDeleted = NO;
+    
+    for (ImageEntity *entity in self.imageEntities)
+    {
+        if([entity.imageName isEqualToString:imageName] && [entity.imageFormatName isEqualToString:imageFormatNames[type]])
+        {
+            // the image is cached
+            // this is a synchronous call
+            [self.imageCache deleteImageForEntity:entity withFormatName:imageFormatNames[type]];
+            imageDeleted = [self.imageCache imageExistsForEntity:entity withFormatName:imageFormatNames[type]];
+            deleteCompletion(entity.imageName, !imageDeleted);
+            return;
+        }
+    }
+    
+    deleteCompletion(nil, imageDeleted);
+}
+
+
 
 - (void)retriveCachedImage:(NSString *)imageName type:(ICImageType)type completion:(completionBlock)completion
 {
@@ -200,7 +221,7 @@ interpolationQuality:(CGInterpolationQuality)quality
         {
             // the image is cached
             // this is a synchronous call
-            BOOL retrive = [self.imageCache retrieveImageForEntity:entity withFormatName:imageFormatNames[type] completionBlock:^(id<FICEntity> entity, NSString *formatName, UIImage *image) {
+            [self.imageCache retrieveImageForEntity:entity withFormatName:imageFormatNames[type] completionBlock:^(id<FICEntity> entity, NSString *formatName, UIImage *image) {
                 completion(image, YES);
             }];
             break;
