@@ -8,6 +8,7 @@
 
 #import "UIImage+Resizing.h"
 #import "UIImage+ImageOrientation.h"
+#import "UIImage+Pixel.h"
 
 @implementation UIImage (Resizing)
 
@@ -41,6 +42,14 @@
     CGContextRelease(bitmap);
     
     return n_image;
+}
+
+- (UIImage *)resizeImageToGrayScaleWithSize:(CGSize)size interpolationQuality:(CGInterpolationQuality)quality scale:(CGFloat)scale orientation:(BOOL)up
+{
+    UIImage *img = [self resizeImageToSize:size interpolationQuality:kCGInterpolationHigh scale:[UIScreen mainScreen].scale orientation:up];
+    img = [self grayScaledImage:img];
+    
+    return img;
 }
 
 #pragma mark - Draw Image

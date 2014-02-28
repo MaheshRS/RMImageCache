@@ -13,5 +13,6 @@
 - (UIImage *)resizeImageToSize:(CGSize)size;
 - (UIImage *)resizeImageToSize:(CGSize)size orientation:(BOOL)up;
 - (UIImage *)resizeImageToSize:(CGSize)size interpolationQuality:(CGInterpolationQuality)quality scale:(CGFloat)scale orientation:(BOOL)up;
+- (UIImage *)resizeImageToGrayScaleWithSize:(CGSize)size interpolationQuality:(CGInterpolationQuality)quality scale:(CGFloat)scale orientation:(BOOL)up;
 
 @end
