@@ -8,7 +8,6 @@
 
 #import "UIImage+Resizing.h"
 #import "UIImage+ImageOrientation.h"
-#import "UIImage+Pixel.h"
 
 @implementation UIImage (Resizing)
 
@@ -44,10 +43,18 @@
     return n_image;
 }
 
-- (UIImage *)resizeImageToGrayScaleWithSize:(CGSize)size interpolationQuality:(CGInterpolationQuality)quality scale:(CGFloat)scale orientation:(BOOL)up
+- (UIImage *)resizeImageToSize:(CGSize)size interpolationQuality:(CGInterpolationQuality)quality sharptype:(UIImageSharpningType)type scale:(CGFloat)scale orientation:(BOOL)up
 {
-    UIImage *img = [self resizeImageToSize:size interpolationQuality:kCGInterpolationHigh scale:[UIScreen mainScreen].scale orientation:up];
-    img = [self grayScaledImage:img];
+    if((size.width == 0) && (size.height == 0))
+        return self;
+    
+    UIImage *n_image = [self sharpenImage:self type:type size:size scale:scale];
+    return n_image;
+}
+
+- (UIImage *)resizeImageToSize:(CGSize)size sharptype:(UIImageSharpningType)type interpolationQuality:(CGInterpolationQuality)quality scale:(CGFloat)scale orientation:(BOOL)up
+{
+    UIImage *img = [self resizeImageToSize:size interpolationQuality:quality sharptype:kSimpleSharp scale:scale orientation:up];
     
     return img;
 }

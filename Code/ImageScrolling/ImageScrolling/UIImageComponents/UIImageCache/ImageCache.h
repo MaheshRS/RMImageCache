@@ -47,5 +47,6 @@ typedef enum
 
 - (void)retriveCachedImage:(NSString *)imageName type:(ICImageType)type completion:(completionBlock)completion;
 - (void)deleteCachedImage:(NSString *)imageName type:(ICImageType)type deleteCompletion:(deleteCompletionBlock)deleteCompletion;
+- (void)deleteCachedImage:(NSString *)imageName imageURL:(NSURL *)image type:(ICImageType)type deleteCompletion:(deleteCompletionBlock)deleteCompletion;
 
 @end

@@ -193,7 +193,7 @@ interpolationQuality:(CGInterpolationQuality)quality
 
 - (void)deleteCachedImage:(NSString *)imageName type:(ICImageType)type deleteCompletion:(deleteCompletionBlock)deleteCompletion
 {
-    BOOL imageDeleted = NO;
+    BOOL imageExists = NO;
     
     for (ImageEntity *entity in self.imageEntities)
     {
@@ -202,15 +202,29 @@ interpolationQuality:(CGInterpolationQuality)quality
             // the image is cached
             // this is a synchronous call
             [self.imageCache deleteImageForEntity:entity withFormatName:imageFormatNames[type]];
-            imageDeleted = [self.imageCache imageExistsForEntity:entity withFormatName:imageFormatNames[type]];
-            deleteCompletion(entity.imageName, !imageDeleted);
+            imageExists = [self.imageCache imageExistsForEntity:entity withFormatName:imageFormatNames[type]];
+            deleteCompletion(entity.imageName, !imageExists);
             return;
         }
     }
     
-    deleteCompletion(nil, imageDeleted);
+    deleteCompletion(nil, !imageExists);
 }
 
+
+- (void)deleteCachedImage:(NSString *)imageName imageURL:(NSURL *)image type:(ICImageType)type deleteCompletion:(deleteCompletionBlock)deleteCompletion
+{
+    BOOL imageExists = NO;
+    
+    // create a entity pointing to the image first
+    ImageEntity *imageEntity = [[ImageEntity alloc]initWithImageURL:image andFormatName:imageFormatNames[type]];
+    
+    // the image is cached
+    // this is a synchronous call
+    [self.imageCache deleteImageForEntity:imageEntity withFormatName:imageFormatNames[type]];
+    imageExists = [self.imageCache imageExistsForEntity:imageEntity withFormatName:imageFormatNames[type]];
+    deleteCompletion(imageEntity.imageName, !imageExists);
+}
 
 
 - (void)retriveCachedImage:(NSString *)imageName type:(ICImageType)type completion:(completionBlock)completion

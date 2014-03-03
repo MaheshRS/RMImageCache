@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIImage+Pixel.h"
 
 @interface UIImage (Resizing)
 
 - (UIImage *)resizeImageToSize:(CGSize)size;
 - (UIImage *)resizeImageToSize:(CGSize)size orientation:(BOOL)up;
 - (UIImage *)resizeImageToSize:(CGSize)size interpolationQuality:(CGInterpolationQuality)quality scale:(CGFloat)scale orientation:(BOOL)up;
-- (UIImage *)resizeImageToGrayScaleWithSize:(CGSize)size interpolationQuality:(CGInterpolationQuality)quality scale:(CGFloat)scale orientation:(BOOL)up;
+- (UIImage *)resizeImageToSize:(CGSize)size sharptype:(UIImageSharpningType)type interpolationQuality:(CGInterpolationQuality)quality scale:(CGFloat)scale orientation:(BOOL)up;
 
 @end

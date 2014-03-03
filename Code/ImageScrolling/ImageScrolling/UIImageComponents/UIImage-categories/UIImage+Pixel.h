@@ -8,8 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum
+{
+    kSimpleSharp=0,
+}UIImageSharpningType;
+
 @interface UIImage (Pixel)
 
-- (UIImage *)grayScaledImage:(UIImage *)image;
+- (UIImage *)sharpenImage:(UIImage *)image type:(UIImageSharpningType)type size:(CGSize)size scale:(CGFloat)scale;
 
 @end

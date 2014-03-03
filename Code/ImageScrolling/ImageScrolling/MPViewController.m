@@ -81,7 +81,8 @@
     for (NSString *string in self.imageArray)
     {
         // cache the image
-        [self.imageCache deleteCachedImage:string type:kICImageTypeThumbnailLarge deleteCompletion:^(NSString *imageName, BOOL success) {
+        NSURL *imageUrl = [[NSBundle mainBundle]URLForResource:string withExtension:@"jpg"];
+        [self.imageCache deleteCachedImage:string imageURL:imageUrl type:kICImageTypeThumbnailLarge deleteCompletion:^(NSString *imageName, BOOL success) {
             
         }];
     }
@@ -93,7 +94,7 @@
     {
         // cache the image
         NSURL *imageUrl = [[NSBundle mainBundle]URLForResource:string withExtension:@"jpg"];
-        [self.imageCache cacheImage:string imageURL:imageUrl type:kICImageTypeThumbnailLarge scale:[UIScreen mainScreen].scale cornerRadius:20.0f orientation:NO interpolationQuality:kCGInterpolationHigh];
+        [self.imageCache cacheImage:string imageURL:imageUrl type:kICImageTypeThumbnailLarge scale:[UIScreen mainScreen].scale cornerRadius:0.0f orientation:NO interpolationQuality:kCGInterpolationHigh];
     }
 }
 
