@@ -33,12 +33,9 @@
     // init the image cache
     [self initImageCache];
     
-    for (NSString *string in self.imageArray)
-    {
-        // cache the image
-        NSURL *imageUrl = [[NSBundle mainBundle]URLForResource:string withExtension:@"jpg"];
-        [self.imageCache cacheImage:string imageURL:imageUrl type:kICImageTypeThumbnailLarge scale:[UIScreen mainScreen].scale cornerRadius:20.0f orientation:NO interpolationQuality:kCGInterpolationHigh];
-    }
+    // clear the previous images and cache the new one
+    [self clearImageCache];
+    [self cacheImage];
     
     [[self tableView]reloadData];
     
@@ -77,6 +74,27 @@
     self.imageCache = [[ImageCache alloc]init];
     [self.imageCache configureImageType:kICImageTypeThumbnailLarge imageStyle:kICmageFormatStyle32BitBGRA withSize:CGSizeMake(40, 40)];
     [self.imageCache finishConfiguringImageCache];
+}
+
+- (void)clearImageCache
+{
+    for (NSString *string in self.imageArray)
+    {
+        // cache the image
+        [self.imageCache deleteCachedImage:string type:kICImageTypeThumbnailLarge deleteCompletion:^(NSString *imageName, BOOL success) {
+            
+        }];
+    }
+}
+
+- (void)cacheImage
+{
+    for (NSString *string in self.imageArray)
+    {
+        // cache the image
+        NSURL *imageUrl = [[NSBundle mainBundle]URLForResource:string withExtension:@"jpg"];
+        [self.imageCache cacheImage:string imageURL:imageUrl type:kICImageTypeThumbnailLarge scale:[UIScreen mainScreen].scale cornerRadius:20.0f orientation:NO interpolationQuality:kCGInterpolationHigh];
+    }
 }
 
 - (void)didReceiveMemoryWarning
