@@ -91,6 +91,7 @@
     
     n_image = [self drawImageWithSize:n_size rawData:manipulatedData rawImage:n_image.CGImage];
     
+    free(originalData);
     free(manipulatedData);
     
     return n_image;

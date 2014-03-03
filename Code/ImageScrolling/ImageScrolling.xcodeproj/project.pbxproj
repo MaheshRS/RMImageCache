@@ -23,6 +23,9 @@
 		3D06C7B418ADDBE00065BBB1 /* ImageScrollingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D06C7B318ADDBE00065BBB1 /* ImageScrollingTests.m */; };
 		3D06C7BF18ADDFB30065BBB1 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D06C7BE18ADDFB30065BBB1 /* CustomCell.m */; };
 		3D06C7C118ADDFE80065BBB1 /* CustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D06C7C018ADDFE80065BBB1 /* CustomCell.xib */; };
+		3D185BDE18C4837C00ADFE40 /* MPListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D185BDD18C4837C00ADFE40 /* MPListViewController.m */; };
+		3D185BE118C4879E00ADFE40 /* CustomListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D185BE018C4879E00ADFE40 /* CustomListCell.m */; };
+		3D185BE518C487D400ADFE40 /* CustomListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D185BE418C487D400ADFE40 /* CustomListCell.xib */; };
 		3D4FA64C18B1DE9B0029BC54 /* UIImage+ImageOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4FA63018B1DE9B0029BC54 /* UIImage+ImageOrientation.m */; };
 		3D4FA64D18B1DE9B0029BC54 /* UIImage+Resizing.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4FA63218B1DE9B0029BC54 /* UIImage+Resizing.m */; };
 		3D4FA64E18B1DE9B0029BC54 /* UIImage+Thumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4FA63418B1DE9B0029BC54 /* UIImage+Thumbnail.m */; };
@@ -91,6 +94,11 @@
 		3D06C7BD18ADDFB30065BBB1 /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
 		3D06C7BE18ADDFB30065BBB1 /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
 		3D06C7C018ADDFE80065BBB1 /* CustomCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCell.xib; sourceTree = "<group>"; };
+		3D185BDC18C4837C00ADFE40 /* MPListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPListViewController.h; sourceTree = "<group>"; };
+		3D185BDD18C4837C00ADFE40 /* MPListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPListViewController.m; sourceTree = "<group>"; };
+		3D185BDF18C4879E00ADFE40 /* CustomListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomListCell.h; path = ImageScrolling/CustomListCell.h; sourceTree = SOURCE_ROOT; };
+		3D185BE018C4879E00ADFE40 /* CustomListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomListCell.m; path = ImageScrolling/CustomListCell.m; sourceTree = SOURCE_ROOT; };
+		3D185BE418C487D400ADFE40 /* CustomListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomListCell.xib; sourceTree = "<group>"; };
 		3D4FA62F18B1DE9B0029BC54 /* UIImage+ImageOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageOrientation.h"; sourceTree = "<group>"; };
 		3D4FA63018B1DE9B0029BC54 /* UIImage+ImageOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageOrientation.m"; sourceTree = "<group>"; };
 		3D4FA63118B1DE9B0029BC54 /* UIImage+Resizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resizing.h"; sourceTree = "<group>"; };
@@ -205,9 +213,14 @@
 				3D06C79A18ADDBE00065BBB1 /* Main.storyboard */,
 				3D06C79D18ADDBE00065BBB1 /* MPViewController.h */,
 				3D06C79E18ADDBE00065BBB1 /* MPViewController.m */,
+				3D185BDC18C4837C00ADFE40 /* MPListViewController.h */,
+				3D185BDD18C4837C00ADFE40 /* MPListViewController.m */,
 				3D06C7BD18ADDFB30065BBB1 /* CustomCell.h */,
 				3D06C7BE18ADDFB30065BBB1 /* CustomCell.m */,
 				3D06C7C018ADDFE80065BBB1 /* CustomCell.xib */,
+				3D185BDF18C4879E00ADFE40 /* CustomListCell.h */,
+				3D185BE018C4879E00ADFE40 /* CustomListCell.m */,
+				3D185BE418C487D400ADFE40 /* CustomListCell.xib */,
 				3D06C7A018ADDBE00065BBB1 /* Images.xcassets */,
 				3D06C78F18ADDBE00065BBB1 /* Supporting Files */,
 			);
@@ -429,6 +442,7 @@
 				3DF470EE18B4EE5C00FA270C /* 8.jpg in Resources */,
 				3DF470DD18B4EE5C00FA270C /* 10.jpg in Resources */,
 				3DF470DE18B4EE5C00FA270C /* 11.jpg in Resources */,
+				3D185BE518C487D400ADFE40 /* CustomListCell.xib in Resources */,
 				3DF470E618B4EE5C00FA270C /* 2.jpg in Resources */,
 				3DF470EF18B4EE5C00FA270C /* 9.jpg in Resources */,
 				3DF470DC18B4EE5C00FA270C /* 1.jpg in Resources */,
@@ -454,6 +468,7 @@
 				3D4FA64D18B1DE9B0029BC54 /* UIImage+Resizing.m in Sources */,
 				3D69C44218C0AB550009022B /* UIImage+Pixel.m in Sources */,
 				3D4FA65518B1DE9B0029BC54 /* FICUtilities.m in Sources */,
+				3D185BDE18C4837C00ADFE40 /* MPListViewController.m in Sources */,
 				3D4FA65318B1DE9B0029BC54 /* FICImageTableChunk.m in Sources */,
 				3D4FA65118B1DE9B0029BC54 /* FICImageFormat.m in Sources */,
 				3D06C79518ADDBE00065BBB1 /* main.m in Sources */,
@@ -467,6 +482,7 @@
 				3D06C7BF18ADDFB30065BBB1 /* CustomCell.m in Sources */,
 				3D06C79918ADDBE00065BBB1 /* MPAppDelegate.m in Sources */,
 				3D4FA64C18B1DE9B0029BC54 /* UIImage+ImageOrientation.m in Sources */,
+				3D185BE118C4879E00ADFE40 /* CustomListCell.m in Sources */,
 				3D4FA64E18B1DE9B0029BC54 /* UIImage+Thumbnail.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

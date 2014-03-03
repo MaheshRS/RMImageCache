@@ -13,6 +13,8 @@
 #import "UIImage+Thumbnail.h"
 #import "ImageCache.h"
 
+#import "MPListViewController.h"
+
 @interface MPViewController ()<UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -69,10 +71,16 @@
     });*/
 }
 
+- (UIRectEdge)edgesForExtendedLayout
+{
+    return UIRectEdgeNone;
+}
+
 - (void)initImageCache
 {
     self.imageCache = [[ImageCache alloc]init];
     [self.imageCache configureImageType:kICImageTypeThumbnailLarge imageStyle:kICmageFormatStyle32BitBGRA withSize:CGSizeMake(40, 40)];
+    [self.imageCache configureImageType:kICImageTypeNormal imageStyle:kICmageFormatStyle32BitBGRA withSize:CGSizeMake(202, 202)];
     [self.imageCache finishConfiguringImageCache];
 }
 
@@ -85,6 +93,10 @@
         [self.imageCache deleteCachedImage:string imageURL:imageUrl type:kICImageTypeThumbnailLarge deleteCompletion:^(NSString *imageName, BOOL success) {
             
         }];
+        
+        [self.imageCache deleteCachedImage:string imageURL:imageUrl type:kICImageTypeNormal deleteCompletion:^(NSString *imageName, BOOL success) {
+            
+        }];
     }
 }
 
@@ -95,6 +107,7 @@
         // cache the image
         NSURL *imageUrl = [[NSBundle mainBundle]URLForResource:string withExtension:@"jpg"];
         [self.imageCache cacheImage:string imageURL:imageUrl type:kICImageTypeThumbnailLarge scale:[UIScreen mainScreen].scale cornerRadius:20.0f orientation:NO interpolationQuality:kCGInterpolationHigh];
+        [self.imageCache cacheImage:string imageURL:imageUrl type:kICImageTypeNormal scale:[UIScreen mainScreen].scale cornerRadius:0.0f orientation:NO interpolationQuality:kCGInterpolationHigh];
     }
 }
 
@@ -142,6 +155,21 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
+}
+
+#pragma mark - UITableViewDelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    MPListViewController *listViewController = [storyBoard instantiateViewControllerWithIdentifier:@"ListStyleController"];
+    
+    if(listViewController)
+    {
+        listViewController.imageCache = self.imageCache;
+       [self.navigationController pushViewController:listViewController animated:YES];
+    }
 }
 
 @end
