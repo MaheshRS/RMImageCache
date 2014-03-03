@@ -610,13 +610,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: vivek rajanna (EKS332JUA3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Mahesh Shanbhag (LPKP4596C3)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ImageScrolling/ImageScrolling-Prefix.pch";
 				INFOPLIST_FILE = "ImageScrolling/ImageScrolling-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "874C3CC5-6872-4860-BF96-72CADA398A70";
+				PROVISIONING_PROFILE = "0DCEBF4C-E1FA-4C73-B96C-18B8AFA66CD0";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -626,13 +626,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: vivek rajanna (EKS332JUA3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Mahesh Shanbhag (LPKP4596C3)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ImageScrolling/ImageScrolling-Prefix.pch";
 				INFOPLIST_FILE = "ImageScrolling/ImageScrolling-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "874C3CC5-6872-4860-BF96-72CADA398A70";
+				PROVISIONING_PROFILE = "0DCEBF4C-E1FA-4C73-B96C-18B8AFA66CD0";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

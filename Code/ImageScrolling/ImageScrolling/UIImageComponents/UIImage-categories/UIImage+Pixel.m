@@ -54,7 +54,7 @@
         int g_output_next = 0;
         int b_output_next = 0;
         
-        signed int index = byteIdx;
+        signed int index = (int)byteIdx;
         
         index = (byteIdx - pixelShift);
         if(index >= 0)

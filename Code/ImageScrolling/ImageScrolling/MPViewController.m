@@ -157,18 +157,19 @@
     return 1;
 }
 
-#pragma mark - UITableViewDelegate
+#pragma mark - UINavigationController
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-    MPListViewController *listViewController = [storyBoard instantiateViewControllerWithIdentifier:@"ListStyleController"];
-    
-    if(listViewController)
+    [self performSegueWithIdentifier:@"pushListView" sender:self];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if([segue.destinationViewController isKindOfClass:[MPListViewController class]])
     {
-        listViewController.imageCache = self.imageCache;
-       [self.navigationController pushViewController:listViewController animated:YES];
+        [(MPListViewController *)segue.destinationViewController setImageCache:self.imageCache];
     }
 }
 

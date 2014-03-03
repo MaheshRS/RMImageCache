@@ -14,12 +14,11 @@
                     </navigationBar>
                     <connections>
                         <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="Oyv-5M-xPs"/>
-                        <segue destination="Wri-Ht-drm" kind="push" id="Kz3-TU-mcR"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2ZY-wr-0FG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-242" y="179"/>
+            <point key="canvasLocation" x="-260" y="183"/>
         </scene>
         <!--View Controller - Grid Style-->
         <scene sceneID="ufC-wZ-h7g">
@@ -44,10 +43,12 @@
                     <navigationItem key="navigationItem" title="Grid Style" id="24F-gk-O6V"/>
                     <connections>
                         <outlet property="tableView" destination="LSC-Ym-ko5" id="3qf-Jx-xPa"/>
+                        <segue destination="Wri-Ht-drm" kind="push" identifier="pushListView" id="2vK-Nf-Dkb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="329" y="-249"/>
         </scene>
         <!--List View Controller - List Style-->
         <scene sceneID="PaT-Rc-4Bg">
