@@ -186,9 +186,27 @@ interpolationQuality:(CGInterpolationQuality)quality
     [self.imageEntities addObject:imageEntity];
     
     // cache the image
-    [self.imageCache setImage:[UIImage imageWithContentsOfFile:[imageURL absoluteString]] forEntity:imageEntity withFormatName:imageFormatNames[type] completionBlock:^(id<FICEntity> entity, NSString *formatName, UIImage *image) {
+    [self.imageCache setImage:[UIImage imageWithContentsOfFile:imageURL.path] forEntity:imageEntity withFormatName:imageFormatNames[type] completionBlock:^(id<FICEntity> entity, NSString *formatName, UIImage *image) {
         
     }];
+}
+
+- (BOOL)imageExist:(NSString *)imageName type:(ICImageType)type
+{
+    BOOL imageExists = NO;
+    
+    for (ImageEntity *entity in self.imageEntities)
+    {
+        if([entity.imageName isEqualToString:imageName] && [entity.imageFormatName isEqualToString:imageFormatNames[type]])
+        {
+            // the image is cached
+            // this is a synchronous call
+            imageExists = YES;
+            break;
+        }
+    }
+    
+    return imageExists;
 }
 
 - (void)deleteCachedImage:(NSString *)imageName type:(ICImageType)type deleteCompletion:(deleteCompletionBlock)deleteCompletion

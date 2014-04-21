@@ -76,7 +76,7 @@
 - (NSString *)UUID {
     if (self.U_UID == nil) {
         // MD5 hashing is expensive enough that we only want to do it once
-        CFUUIDBytes UUIDBytes = FICUUIDBytesFromMD5HashOfString([self.imageUrl absoluteString]);
+        CFUUIDBytes UUIDBytes = FICUUIDBytesFromMD5HashOfString([self.imageUrl path]);
         self.U_UID = FICStringWithUUIDBytes(UUIDBytes);
     }
     

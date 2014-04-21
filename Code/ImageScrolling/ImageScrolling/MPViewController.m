@@ -40,35 +40,6 @@
     [self cacheImage];
     
     [[self tableView]reloadData];
-    
-    // TOOD: Handles deletion, for now only commenting this will need in future development.
-    /*typeof(self) __weak weakself = self;
-    double delayInSeconds = 5.0;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        
-        NSMutableArray *array = [NSMutableArray arrayWithCapacity:self.imageArray.count];
-        [self.imageArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop)
-         {
-             // cache the image
-             [weakself.imageCache deleteCachedImage:(NSString *)obj type:kICImageTypeThumbnailLarge deleteCompletion:^(NSString *imageName, BOOL success) {
-                 if(success)
-                 {
-                     [array addObject:obj];
-                 }
-             }];
-         }];
-        
-        for(NSString *str in array)
-        {
-            [weakself.imageArray removeObject:str];
-        }
-        
-        [array removeAllObjects];
-        array = nil;
-        
-        [weakself.tableView reloadData];
-    });*/
 }
 
 - (UIRectEdge)edgesForExtendedLayout
@@ -107,7 +78,7 @@
         // cache the image
         NSURL *imageUrl = [[NSBundle mainBundle]URLForResource:string withExtension:@"jpg"];
         [self.imageCache cacheImage:string imageURL:imageUrl type:kICImageTypeThumbnailLarge scale:[UIScreen mainScreen].scale cornerRadius:20.0f orientation:NO interpolationQuality:kCGInterpolationHigh];
-        [self.imageCache cacheImage:string imageURL:imageUrl type:kICImageTypeNormal scale:[UIScreen mainScreen].scale cornerRadius:0.0f orientation:NO interpolationQuality:kCGInterpolationHigh];
+        //[self.imageCache cacheImage:string imageURL:imageUrl type:kICImageTypeNormal scale:[UIScreen mainScreen].scale cornerRadius:0.0f orientation:NO interpolationQuality:kCGInterpolationHigh];
     }
 }
 
