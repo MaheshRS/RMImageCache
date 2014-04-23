@@ -11,5 +11,6 @@
 @interface CustomListCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *listImageView;
+@property (strong, nonatomic) NSString *imageName;
 
 @end

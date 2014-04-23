@@ -84,6 +84,7 @@
     
     NSString *random1 = [NSString stringWithFormat:@"%d",(int)(indexPath.row+1)%20];
     random1 = self.imageArray[[random1 integerValue]];
+    cell.imageName = random1;
     
     if([self.imageCache imageExist:random1 type:kICImageTypeNormal])
     {
@@ -94,7 +95,7 @@
     }
     else
     {
-        [self.imageCache cacheImage:random1 imageURL:[[NSBundle mainBundle] URLForResource:random1 withExtension:@"jpg"] type:kICImageTypeNormal scale:[UIScreen mainScreen].scale cornerRadius:0.0f orientation:NO interpolationQuality:kCGInterpolationHigh];
+        [self cacheImage:random1 url:[[NSBundle mainBundle] URLForResource:random1 withExtension:@"jpg"]];
     }
     
     return cell;
@@ -108,7 +109,29 @@
 #pragma mark - Cache Image
 - (void)cacheImage:(NSString *)imageName url:(NSURL *)imageUrl
 {
-    [self.imageCache cacheImage:imageName imageURL:imageUrl type:kICImageTypeNormal scale:[UIScreen mainScreen].scale cornerRadius:0.0f orientation:NO interpolationQuality:kCGInterpolationHigh];
+    typeof(self) __weak weakself = self;
+    
+    [self.imageCache cacheImage:imageName
+                       imageURL:imageUrl type:kICImageTypeNormal
+                          scale:[UIScreen mainScreen].scale
+                   cornerRadius:0.0f
+                    orientation:NO
+           interpolationQuality:kCGInterpolationHigh
+                 completionBlock:^(UIImage *image, NSString *imageName, BOOL success) {
+                     if(success)
+                     {
+                         for(CustomListCell *cell in [weakself.listTableView visibleCells])
+                         {
+                             if([cell.imageName isEqualToString:imageName])
+                             {
+                                 dispatch_async(dispatch_get_main_queue(), ^{
+                                     cell.listImageView.image = image;
+                                 });
+                                 break;
+                             }
+                         }
+                     }
+                 }];
 }
 
 @end

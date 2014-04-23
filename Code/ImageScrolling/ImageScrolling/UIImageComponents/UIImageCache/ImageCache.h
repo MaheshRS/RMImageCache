@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 typedef void(^completionBlock)(UIImage *image, BOOL success);
+typedef void(^imageCacheCompletionBlock)(UIImage *image, NSString *imageName, BOOL success);
 typedef void(^deleteCompletionBlock)(NSString *imageName, BOOL success);
 
 typedef enum {
@@ -44,6 +45,14 @@ typedef enum
           cornerRadius:(CGFloat)cornerRadius
           orientation:(BOOL)orientation
           interpolationQuality:(CGInterpolationQuality)quality;
+
+- (void)cacheImage:(NSString *)imageName
+          imageURL:(NSURL *)imageURL
+              type:(ICImageType)type
+             scale:(CGFloat)scale
+      cornerRadius:(CGFloat)cornerRadius
+       orientation:(BOOL)orientation
+interpolationQuality:(CGInterpolationQuality)quality completionBlock:(imageCacheCompletionBlock)block;
 
 - (void)retriveCachedImage:(NSString *)imageName type:(ICImageType)type completion:(completionBlock)completion;
 - (void)deleteCachedImage:(NSString *)imageName type:(ICImageType)type deleteCompletion:(deleteCompletionBlock)deleteCompletion;

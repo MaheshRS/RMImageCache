@@ -177,17 +177,46 @@ NSString *imageFamilyNames[] = {
        orientation:(BOOL)orientation
 interpolationQuality:(CGInterpolationQuality)quality
 {
+    typeof(self) __weak weakself = self;
+    
     // create a new image entity
     ImageEntity *imageEntity = [[ImageEntity alloc]initWithImageURL:imageURL andFormatName:imageFormatNames[type]];
     [imageEntity setImageName:imageName];
-    [imageEntity setImageMetaData:[self formatSize:imageFormatNames[type]] scale:scale cornerRadius:cornerRadius orientation:orientation quality:quality];
+    [imageEntity setImageMetaData:[weakself formatSize:imageFormatNames[type]] scale:scale cornerRadius:cornerRadius orientation:orientation quality:quality];
     
     // add it to the new image entity array
-    [self.imageEntities addObject:imageEntity];
+    [weakself.imageEntities addObject:imageEntity];
     
     // cache the image
-    [self.imageCache setImage:[UIImage imageWithContentsOfFile:imageURL.path] forEntity:imageEntity withFormatName:imageFormatNames[type] completionBlock:^(id<FICEntity> entity, NSString *formatName, UIImage *image) {
+    [weakself.imageCache setImage:[UIImage imageWithContentsOfFile:imageURL.path] forEntity:imageEntity withFormatName:imageFormatNames[type] completionBlock:^(id<FICEntity> entity, NSString *formatName, UIImage *image) {
         
+    }];
+}
+
+- (void)cacheImage:(NSString *)imageName
+          imageURL:(NSURL *)imageURL
+              type:(ICImageType)type
+             scale:(CGFloat)scale
+      cornerRadius:(CGFloat)cornerRadius
+       orientation:(BOOL)orientation
+interpolationQuality:(CGInterpolationQuality)quality completionBlock:(imageCacheCompletionBlock)block
+{
+    typeof(self) __weak weakself = self;
+    
+    // create a new image entity
+    ImageEntity *imageEntity = [[ImageEntity alloc]initWithImageURL:imageURL andFormatName:imageFormatNames[type]];
+    [imageEntity setImageName:imageName];
+    [imageEntity setImageMetaData:[weakself formatSize:imageFormatNames[type]] scale:scale cornerRadius:cornerRadius orientation:orientation quality:quality];
+    
+    // add it to the new image entity array
+    [weakself.imageEntities addObject:imageEntity];
+    
+    // cache the image
+    [weakself.imageCache setImage:[UIImage imageWithContentsOfFile:imageURL.path] forEntity:imageEntity withFormatName:imageFormatNames[type] completionBlock:^(id<FICEntity> entity, NSString *formatName, UIImage *image) {
+        if(image)
+            block(image, imageName, YES);
+        else
+            block(nil, nil, NO);
     }];
 }
 
